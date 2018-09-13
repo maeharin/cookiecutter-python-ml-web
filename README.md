@@ -1,6 +1,9 @@
 
 ```
 pip install cookiecutter
-cookiecutter xxx
+cookiecutter https://github.com/maeharin/cookiecutter-python-ml-web
 ```
+
+- flask
+- react.js
 
