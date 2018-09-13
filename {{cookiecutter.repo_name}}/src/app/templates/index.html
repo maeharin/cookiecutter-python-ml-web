@@ -1,0 +1,61 @@
+{% raw %}
+{% extends "layout.html" %}
+{% block content %}
+{% endraw %}
+    <h1>sample prediction app</h1>
+    <div id="app"></div>
+    <script type="text/babel">
+        class TextPredictForm extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    query: "",
+                    reply: ""
+                };
+            }
+
+            onChangeQuery = (event) => {
+                this.setState({query: event.target.value})
+            };
+
+            onSubmit = (event) => {
+                const formData = new FormData();
+                formData.append("query", this.state.query);
+                fetch("/text/predict", { method: "POST", body: formData })
+                    .then((res) => {
+                        return res.json()
+                    })
+                    .then((data) => {
+                        console.log(data)
+                        this.setState({reply: data.reply})
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    });
+            };
+
+            render() {
+                return (
+                    <div>
+                        <input type="text" onChange={this.onChangeQuery} value={this.state.query}/>
+                        <button onClick={this.onSubmit}>predict!</button>
+                        <p>{this.state.reply}</p>
+                    </div>
+                );
+            }
+        }
+
+        /**
+         * main
+         */
+        ReactDOM.render(
+            <div>
+                <h2>predict by text</h2>
+                <TextPredictForm/>
+            </div>,
+            document.getElementById('app')
+        );
+    </script>
+{% raw %}
+{% endblock %}
+{% endraw %}
