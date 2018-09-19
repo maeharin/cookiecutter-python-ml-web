@@ -37,3 +37,9 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
+dockerbuild: clean
+	docker build -t {{ cookiecutter.repo_name }} .
+
+dockerrun:
+	docker run --rm -p 80:8000 {{ cookiecutter.repo_name }}
+
